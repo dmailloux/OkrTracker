@@ -27,11 +27,16 @@ export default function Index(): JSX.Element {
   useEffect(() => {
     const { data: authListener } = supabaseClient.auth.onAuthStateChange(
       (event: AuthChangeEvent, session: Session | null) => {
-        if (event === "PASSWORD_RECOVERY") {
-          setAuthView("forgotten_password");
+        switch (event) {
+          case "PASSWORD_RECOVERY":
+            setAuthView("forgotten_password");
+            break;
+          case "USER_UPDATED":
+            setTimeout(() => setAuthView("sign_in"), 1000);
+            break;
+          default:
+            break;
         }
-        if (event === "USER_UPDATED")
-          setTimeout(() => setAuthView("sign_in"), 1000);
         // Send session to /api/auth route to set the auth cookie.
         // NOTE: this is only needed if you're doing SSR (getServerSideProps)!
         fetch("/api/auth", {
