@@ -1,8 +1,13 @@
 import Link from "next/link";
 import { Card, Typography, Space } from "@supabase/ui";
-import { supabase } from "../utils/initSupabase";
+import { supabaseClient } from "../utils/initSupabase";
+import { User } from "@supabase/supabase-js";
 
-export default function Profile({ user }) {
+interface ProfileProps {
+  user: User;
+}
+
+export default function Profile({ user }: ProfileProps): JSX.Element {
   return (
     <div style={{ maxWidth: "420px", margin: "96px auto" }}>
       <Card>
@@ -29,7 +34,7 @@ export default function Profile({ user }) {
 }
 
 export async function getServerSideProps({ req }) {
-  const { user } = await supabase.auth.api.getUserByCookie(req);
+  const { user } = await supabaseClient.auth.api.getUserByCookie(req);
 
   if (!user) {
     // If no user, redirect to index.

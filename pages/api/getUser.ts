@@ -1,13 +1,19 @@
-import { supabase } from "../../utils/initSupabase";
+import { User } from "@supabase/supabase-js";
+import { NextApiRequest, NextApiResponse } from "next";
+import { supabaseClient } from "../../utils/initSupabase";
 
 // Example of how to verify and get user data server-side.
-const getUser = async (req, res) => {
-  const token = req.headers.token;
+export default async function getUser(
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> {
+  const token: string = req.headers.token as string;
 
-  const { data: user, error } = await supabase.auth.api.getUser(token);
+  const { data, error }: { data: User | null; error: Error | null } =
+    await supabaseClient.auth.api.getUser(token);
 
-  if (error) return res.status(401).json({ error: error.message });
-  return res.status(200).json(user);
-};
-
-export default getUser;
+  if (error) {
+    return res.status(401).json({ errorMessage: error.message });
+  }
+  return res.status(200).json(data);
+}
