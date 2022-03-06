@@ -1,28 +1,27 @@
 import useSWR from "swr";
-import { Auth, Card } from "@supabase/ui";
+import { Auth, Card, Typography } from "@supabase/ui";
 import { supabaseClient } from "../utils/initSupabase";
 import { useEffect, useState } from "react";
 import { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
 import { AuthView } from "../types/AuthView";
 import { View } from "../components/view";
 import { DataFetchError } from "../types/DataFetchError";
+import { Okr } from "../types/Okr";
 
-async function fetcher(url: string, token: string): Promise<User> {
-  const res = await fetch(url, {
-    method: "GET",
-    headers: new Headers({ "Content-Type": "application/json", token }),
-    credentials: "same-origin",
-  });
-  return res.json();
+async function fetchOkrs(): Promise<Okr[] | null> {
+  const { data, error } = await supabaseClient
+    .from("objectives")
+    .select("id, name, due_at, keyresults (id, description)");
+  return data;
 }
 
 export default function Index(): JSX.Element {
   const { user, session }: { user: User; session: Session } = Auth.useUser();
-  const { data, error } = useSWR<User, DataFetchError>(
-    session ? ["/api/getUser", session.access_token] : null,
-    fetcher
-  );
   const [authView, setAuthView] = useState<AuthView>("sign_in");
+  const { data: okrs, error } = useSWR<Okr[] | null, DataFetchError>(
+    session ? ["/api/getOkrs", session.access_token] : null,
+    fetchOkrs
+  );
 
   useEffect(() => {
     const { data: authListener } = supabaseClient.auth.onAuthStateChange(
@@ -43,18 +42,21 @@ export default function Index(): JSX.Element {
     return () => {
       authListener?.unsubscribe();
     };
-  }, []);
+  }, [authView]);
 
   return (
-    <div style={{ maxWidth: "420px", margin: "96px auto" }}>
+    <div>
       <Card>
-        <View
-          user={user}
-          supabaseClient={supabaseClient}
-          authView={authView}
-          userData={data}
-          error={error}
-        />
+        {error ? (
+          <Typography.Text type="danger">Failed to fetch user!</Typography.Text>
+        ) : (
+          <View
+            user={user}
+            supabaseClient={supabaseClient}
+            authView={authView}
+            okrData={okrs}
+          />
+        )}
       </Card>
     </div>
   );
