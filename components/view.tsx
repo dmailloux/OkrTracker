@@ -2,22 +2,21 @@ import Link from "next/link";
 import { SupabaseClient, User } from "@supabase/supabase-js";
 import { Auth, Typography, Space, Button, Icon } from "@supabase/ui";
 import { AuthView } from "../types/AuthView";
-import { DataFetchError } from "../types/DataFetchError";
+import { Okr } from "../types/Okr";
+import { OkrDisplay } from "./okrdisplay";
 
 interface ViewProps {
   user: User;
   supabaseClient: SupabaseClient;
   authView: AuthView;
-  userData?: User;
-  error?: DataFetchError;
+  okrData?: Okr[] | null;
 }
 
 export function View({
   user,
   supabaseClient,
   authView,
-  userData,
-  error,
+  okrData,
 }: ViewProps): JSX.Element {
   if (!user)
     return (
@@ -51,30 +50,13 @@ export function View({
           >
             Log out
           </Button>
-          {error && (
-            <Typography.Text type="danger">
-              Failed to fetch user!
-            </Typography.Text>
-          )}
-          {userData && !error ? (
-            <>
-              <Typography.Text type="success">
-                User data retrieved server-side (in API route):
-              </Typography.Text>
-
-              <Typography.Text>
-                <pre>{JSON.stringify(userData, null, 2)}</pre>
-              </Typography.Text>
-            </>
+          {okrData ? (
+            okrData?.map((okr: Okr, i) => {
+              return <OkrDisplay key={i} okr={okr} />;
+            })
           ) : (
             <div>Loading...</div>
           )}
-
-          <Typography.Text>
-            <Link href="/profile">
-              <a>SSR example with getServerSideProps</a>
-            </Link>
-          </Typography.Text>
         </>
       )}
     </Space>
