@@ -13,7 +13,7 @@ export default function Okrs() {
     session ? ["/api/getOkrs", session.access_token] : null,
     selectOkrs
   );
-  return okrs?.map((okr) => <OkrDisplay okr={okr} />) ?? <></>;
+  return okrs?.map((okr, i) => <OkrDisplay key={i} okr={okr} />) ?? <></>;
 }
 
 export async function getServerSideProps({ req }: { req: any }) {
