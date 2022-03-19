@@ -2,8 +2,8 @@
 
 import { GetServerSideProps } from "next";
 
-export default function CatchAllRoute() {
-  return null;
+export default function CatchAllRoute(): JSX.Element {
+  return <></>;
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
