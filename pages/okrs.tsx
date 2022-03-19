@@ -2,7 +2,6 @@ import { Session, User } from "@supabase/supabase-js";
 import { Auth } from "@supabase/ui";
 import { GetServerSideProps } from "next";
 import useSWR from "swr";
-import Header from "../components/header";
 import { OkrDisplay } from "../components/okrdisplay";
 import { selectOkrs } from "../database/SelectOkrsAction";
 import { DataFetchError } from "../types/DataFetchError";
@@ -16,10 +15,7 @@ export default function Okrs() {
     selectOkrs
   );
   return (
-    <>
-      <Header />
-      {okrs?.map((okr, i) => <OkrDisplay key={i} okr={okr} />) ?? <></>}
-    </>
+    <>{okrs?.map((okr, i) => <OkrDisplay key={i} okr={okr} />) ?? <></>}</>
   );
 }
 
