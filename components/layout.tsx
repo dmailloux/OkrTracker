@@ -5,10 +5,8 @@ interface LayoutProps {
 }
 export default function Layout({ children }: LayoutProps): JSX.Element {
   return (
-    <>
-      <Shell>
-        <main>{children}</main>
-      </Shell>
-    </>
+    <Shell>
+      <main>{children}</main>
+    </Shell>
   );
 }
