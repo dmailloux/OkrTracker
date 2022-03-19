@@ -15,12 +15,14 @@ async function updateSupabaseAuthCookie(
     body: JSON.stringify({ event, session }),
   });
 }
+import { handleAuthRouting } from "../utils/handleAuthRouting";
 
 export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   useEffect(() => {
     const { data: authListener } = supabaseClient.auth.onAuthStateChange(
       (event, session) => {
         updateSupabaseAuthCookie(event, session);
+        handleAuthRouting(event, session);
       }
     );
 
