@@ -5,6 +5,8 @@ import { AuthChangeEvent, Session } from "@supabase/supabase-js";
 import { useEffect } from "react";
 import { handleAuthRouting } from "../utils/handleAuthRouting";
 import { updateSupabaseAuthCookie } from "../utils/updateSupabaseAuthCookie";
+import { MantineProvider } from "@mantine/core";
+import Layout from "../components/layout";
 
 export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   useEffect(() => {
@@ -23,10 +25,26 @@ export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   });
 
   return (
-    <main className={"dark"}>
+    <>
       <Auth.UserContextProvider supabaseClient={supabaseClient}>
-        <Component {...pageProps} />
+        <MantineProvider
+          withGlobalStyles
+          withNormalizeCSS
+          theme={{
+            // Override any other properties from default theme
+            fontFamily: "Open Sans, sans serif",
+            colors: {
+              brand: ["#182847", "#cbac7b", "#52617a", "#fffff"],
+            },
+            // primaryColor: "indigo",
+            spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
+          }}
+        >
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </MantineProvider>
       </Auth.UserContextProvider>
-    </main>
+    </>
   );
 }
