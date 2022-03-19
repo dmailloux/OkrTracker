@@ -7,20 +7,14 @@ import { AuthView } from "../types/AuthView";
 import { View } from "../components/view";
 import { DataFetchError } from "../types/DataFetchError";
 import { Okr } from "../types/Okr";
-
-async function fetchOkrs(): Promise<Okr[] | null> {
-  const { data, error } = await supabaseClient
-    .from("objectives")
-    .select("id, name, due_at, keyresults (id, description)");
-  return data;
-}
+import { selectOkrs } from "../database/SelectOkrsAction";
 
 export default function Index(): JSX.Element {
   const { user, session }: { user: User; session: Session } = Auth.useUser();
   const [authView, setAuthView] = useState<AuthView>("sign_in");
   const { data: okrs, error } = useSWR<Okr[] | null, DataFetchError>(
     session ? ["/api/getOkrs", session.access_token] : null,
-    fetchOkrs
+    selectOkrs
   );
 
   useEffect(() => {
