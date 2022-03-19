@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { SupabaseClient, User } from "@supabase/supabase-js";
 import { Auth, Typography, Space, Button, Icon } from "@supabase/ui";
 import { AuthView } from "../types/AuthView";
