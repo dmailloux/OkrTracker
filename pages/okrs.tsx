@@ -1,5 +1,6 @@
 import { Session, User } from "@supabase/supabase-js";
 import { Auth } from "@supabase/ui";
+import { GetServerSideProps } from "next";
 import useSWR from "swr";
 import { OkrDisplay } from "../components/okrdisplay";
 import { selectOkrs } from "../database/SelectOkrsAction";
@@ -16,7 +17,7 @@ export default function Okrs() {
   return okrs?.map((okr, i) => <OkrDisplay key={i} okr={okr} />) ?? <></>;
 }
 
-export async function getServerSideProps({ req }: { req: any }) {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const { user } = await supabaseClient.auth.api.getUserByCookie(req);
 
   if (!user) {
@@ -24,4 +25,4 @@ export async function getServerSideProps({ req }: { req: any }) {
   }
 
   return { props: {} };
-}
+};

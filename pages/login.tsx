@@ -3,15 +3,16 @@ import { Auth, Card, Space, Typography } from "@supabase/ui";
 import { useEffect } from "react";
 import { supabaseClient } from "../utils/initSupabase";
 import Router from "next/router";
+import { GetServerSideProps } from "next";
 
-export default function Login() {
-  const { user, session }: { user: User; session: Session } = Auth.useUser();
+export default function Login(): JSX.Element {
+  const { session }: { session: Session } = Auth.useUser();
 
   useEffect(() => {
     if (session) {
       Router.push("/okrs");
     }
-  }, [user, session]);
+  }, [session]);
 
   return (
     <Card>
@@ -30,7 +31,7 @@ export default function Login() {
   );
 }
 
-export async function getServerSideProps({ req }: { req: any }) {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const { user } = await supabaseClient.auth.api.getUserByCookie(req);
 
   if (user) {
@@ -38,4 +39,4 @@ export async function getServerSideProps({ req }: { req: any }) {
   }
 
   return { props: {} };
-}
+};
