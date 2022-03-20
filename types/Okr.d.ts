@@ -1,6 +1,4 @@
-export interface KeyResult {
-  description: string;
-}
+import { KeyResult } from "./KeyResult";
 
 export interface Okr {
   name: string;
