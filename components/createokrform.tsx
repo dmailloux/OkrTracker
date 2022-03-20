@@ -1,16 +1,15 @@
 import { formList, useForm } from "@mantine/form";
 import { Box, Group, Button, TextInput, ActionIcon, Text } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
-import { createOkr } from "../database/CreateOkrAction";
-import { KeyResult, Okr } from "../types/Okr";
 import { Auth } from "@supabase/ui";
 import { Session, User } from "@supabase/supabase-js";
 import { Trash } from "tabler-icons-react";
 import { insertObjective } from "../database/InsertObjectiveAction";
 import { Objective } from "../types/Objective";
+import { KeyResult } from "../types/KeyResult";
 import { insertKeyResults } from "../database/InsertKeyResultsAction";
 
-export default function CreateOkr(): JSX.Element {
+export default function CreateOkrForm(): JSX.Element {
   const { user, session }: { user: User; session: Session } = Auth.useUser();
   const notifications = useNotifications();
   const form = useForm({
@@ -37,7 +36,7 @@ export default function CreateOkr(): JSX.Element {
       const keyresults: KeyResult[] = keyResults.map((keyResult) => ({
         description: keyResult.description,
         user_id: user.id,
-        objective_id: objectiveData.id,
+        objective_id: objectiveData.id!,
       }));
       const keyResultsData: KeyResult[] = await insertKeyResults(keyresults);
 
