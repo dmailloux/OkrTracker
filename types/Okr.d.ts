@@ -5,5 +5,6 @@ export interface KeyResult {
 export interface Okr {
   name: string;
   keyresults: KeyResult[];
-  dueAt?: Date;
+  user_id: string;
+  due_at?: Date;
 }
