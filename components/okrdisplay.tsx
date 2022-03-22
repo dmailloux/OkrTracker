@@ -6,7 +6,7 @@ import { deleteKeyResults } from "../database/DeleteKeyResultsAction";
 import { Trash } from "tabler-icons-react";
 
 interface OkrDisplayProps {
-  okr: Okr | null;
+  okr: Okr;
 }
 
 export function OkrDisplay({ okr }: OkrDisplayProps): JSX.Element {

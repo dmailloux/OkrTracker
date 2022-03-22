@@ -18,7 +18,7 @@ export default function Okrs() {
   return (
     <>
       <CreateOkrForm />
-      {okrs?.map((okr, i) => <OkrDisplay key={i} okr={okr} />) ?? <></>}
+      {okrs ? okrs.map((okr, i) => <OkrDisplay key={i} okr={okr} />) : <></>}
     </>
   );
 }
