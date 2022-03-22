@@ -15,8 +15,11 @@ export function OkrDisplay({ okr }: OkrDisplayProps): JSX.Element {
     (keyResult: KeyResult) => keyResult
   );
 
-  const deleteKeyResult = (keyResult: KeyResult) => {
-    deleteKeyResults([keyResult]);
+  const deleteKeyResult = async (keyResult: KeyResult) => {
+    const keyResultIdToDelete: string | undefined = keyResult?.id;
+    if (keyResultIdToDelete != null) {
+      await deleteKeyResults([keyResultIdToDelete]);
+    }
   };
 
   return (
