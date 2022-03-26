@@ -1,21 +1,17 @@
 import { SupabaseClient, User } from "@supabase/supabase-js";
 import { Auth, Typography, Space, Button, Icon } from "@supabase/ui";
 import { AuthView } from "../types/AuthView";
-import { Okr } from "../types/Okr";
-import { OkrDisplay } from "./okrdisplay";
 
 interface ViewProps {
   user: User;
   supabaseClient: SupabaseClient;
   authView: AuthView;
-  okrData?: Okr[] | null;
 }
 
 export function View({
   user,
   supabaseClient,
   authView,
-  okrData,
 }: ViewProps): JSX.Element {
   if (!user)
     return (
@@ -49,13 +45,6 @@ export function View({
           >
             Log out
           </Button>
-          {okrData ? (
-            okrData?.map((okr: Okr, i) => {
-              return <OkrDisplay key={i} okr={okr} />;
-            })
-          ) : (
-            <div>Loading...</div>
-          )}
         </>
       )}
     </Space>
