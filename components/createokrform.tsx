@@ -8,8 +8,23 @@ import { insertObjective } from "../database/InsertObjectiveAction";
 import { Objective } from "../types/Objective";
 import { KeyResult } from "../types/KeyResult";
 import { insertKeyResults } from "../database/InsertKeyResultsAction";
+import { useMutation, useQueryClient } from "react-query";
 
 export default function CreateOkrForm(): JSX.Element {
+  const queryClient = useQueryClient();
+  const objectiveMutation = useMutation(insertObjective, {
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries("okrs");
+    },
+  });
+  const keyResultsMutation = useMutation(insertKeyResults, {
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries("okrs");
+    },
+  });
+
   const { user, session }: { user: User; session: Session } = Auth.useUser();
   const notifications = useNotifications();
   const form = useForm({
@@ -32,13 +47,18 @@ export default function CreateOkrForm(): JSX.Element {
     };
 
     try {
-      const objectiveData: Objective = await insertObjective(objectiveToInsert);
-      const keyresults: KeyResult[] = keyResults.map((keyResult) => ({
+      const objectiveData: Objective = await objectiveMutation.mutateAsync(
+        objectiveToInsert
+      );
+
+      const keyresultsToInsert: KeyResult[] = keyResults.map((keyResult) => ({
         description: keyResult.description,
         user_id: user.id,
         objective_id: objectiveData.id!,
       }));
-      const keyResultsData: KeyResult[] = await insertKeyResults(keyresults);
+      const keyResultsData: KeyResult[] = await keyResultsMutation.mutateAsync(
+        keyresultsToInsert
+      );
 
       notifications.showNotification({
         title: "Okr Added",

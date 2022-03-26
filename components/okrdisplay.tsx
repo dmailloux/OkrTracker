@@ -5,12 +5,26 @@ import { ActionIcon } from "@mantine/core";
 import { deleteKeyResults } from "../database/DeleteKeyResultsAction";
 import { Trash } from "tabler-icons-react";
 import { deleteObjective } from "../database/DeleteObjectiveAction";
+import { Mutation, useMutation, useQueryClient } from "react-query";
 
 interface OkrDisplayProps {
   okr: Okr;
 }
 
 export function OkrDisplay({ okr }: OkrDisplayProps): JSX.Element {
+  const queryClient = useQueryClient();
+  const objectiveMutation = useMutation(deleteObjective, {
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries("okrs");
+    },
+  });
+  const keyResultsMutation = useMutation(deleteKeyResults, {
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries("okrs");
+    },
+  });
   const objective = okr?.name;
   const keyResults: KeyResult[] | undefined = okr?.keyresults?.map(
     (keyResult: KeyResult) => keyResult
@@ -23,16 +37,16 @@ export function OkrDisplay({ okr }: OkrDisplayProps): JSX.Element {
         .filter((x) => x.id != null)
         .map((x) => x.id);
 
-      await deleteKeyResults(keyResultIdsToDelete);
+      await keyResultsMutation.mutateAsync(keyResultIdsToDelete);
     }
     // then delete objective
-    await deleteObjective(okr.id);
+    await objectiveMutation.mutateAsync(okr.id);
   };
 
   const deleteKeyResult = async (keyResult: KeyResult) => {
     const keyResultIdToDelete: string | undefined = keyResult?.id;
     if (keyResultIdToDelete != null) {
-      await deleteKeyResults([keyResultIdToDelete]);
+      await keyResultsMutation.mutateAsync([keyResultIdToDelete]);
     }
   };
 
