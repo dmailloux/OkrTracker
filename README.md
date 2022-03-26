@@ -1,3 +1,3 @@
 # OkrTracker
 
-An Okr tracking application designed using NextJS, Supabase, and React
+An Okr tracking application built using React, NextJS, Supabase, Mantine and React Query.
