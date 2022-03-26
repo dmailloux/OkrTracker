@@ -8,6 +8,9 @@ import { updateSupabaseAuthCookie } from "../utils/updateSupabaseAuthCookie";
 import { MantineProvider } from "@mantine/core";
 import Layout from "../components/layout";
 import { NotificationsProvider } from "@mantine/notifications";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   useEffect(() => {
@@ -42,9 +45,11 @@ export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
           }}
         >
           <NotificationsProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
+            <QueryClientProvider client={queryClient}>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </QueryClientProvider>
           </NotificationsProvider>
         </MantineProvider>
       </Auth.UserContextProvider>
