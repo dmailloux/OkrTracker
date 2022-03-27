@@ -60,6 +60,7 @@ export default function CreateOkrForm(): JSX.Element {
         keyresultsToInsert
       );
 
+      form.reset();
       notifications.showNotification({
         title: "Okr Added",
         message: "Okr has been successfully saved",
