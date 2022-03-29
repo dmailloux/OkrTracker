@@ -1,12 +1,13 @@
 import { Session, User } from "@supabase/supabase-js";
 import { Auth } from "@supabase/ui";
 import { GetServerSideProps } from "next";
-import { useQuery, useQueryClient, UseQueryResult } from "react-query";
+import { useQuery, UseQueryResult } from "react-query";
 import CreateOkrForm from "../components/createokrform";
 import { OkrDisplay } from "../components/okrdisplay";
 import { selectOkrs } from "../database/SelectOkrsAction";
 import { Okr } from "../types/Okr";
 import { supabaseClient } from "../utils/initSupabase";
+import { Stack, Divider } from "@mantine/core";
 
 export default function Okrs() {
   const { user, session }: { user: User; session: Session } = Auth.useUser();
@@ -18,11 +19,14 @@ export default function Okrs() {
   return (
     <>
       <CreateOkrForm />
-      {query.data ? (
-        query.data.map((okr, i) => <OkrDisplay key={i} okr={okr} />)
-      ) : (
-        <></>
-      )}
+      <Divider size="xl" color="blue" style={{ margin: "1rem" }} />
+      <Stack>
+        {query.data ? (
+          query.data.map((okr, i) => <OkrDisplay key={i} okr={okr} />)
+        ) : (
+          <></>
+        )}
+      </Stack>
     </>
   );
 }
