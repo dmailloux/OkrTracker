@@ -1,7 +1,6 @@
-import { Button, Grid } from "@mantine/core";
+import { AppShell, Button, Grid, Group, Header, Title } from "@mantine/core";
 import { supabaseClient } from "../utils/initSupabase";
-import { AppShell, Header } from "@mantine/core";
-import { Session, User } from "@supabase/supabase-js";
+import { Session } from "@supabase/supabase-js";
 import { Auth } from "@supabase/ui";
 import Router from "next/router";
 
@@ -13,6 +12,7 @@ export default function Shell({ children }: ShellProps): JSX.Element {
   return (
     <AppShell
       header={<HeaderContent />}
+      fixed
       styles={(theme) => ({
         main: {
           backgroundColor:
@@ -31,24 +31,21 @@ function HeaderContent(): JSX.Element {
   const { session }: { session: Session } = Auth.useUser();
 
   return (
-    <Header height={60} p="xs">
-      <Grid justify="flex-end">
+    <Header height={60} p="xl">
+      <Grid justify="space-between">
+        <Title>Oakra</Title>
         {session ? (
-          <Grid.Col span={1}>
+          <Group>
             <Button onClick={() => supabaseClient.auth.signOut()}>
               Log out
             </Button>
-          </Grid.Col>
+          </Group>
         ) : (
-          <>
-            <Grid.Col span={1}>
-              <Button onClick={() => Router.push("/login")}>Sign In</Button>
-            </Grid.Col>
+          <Group>
+            <Button onClick={() => Router.push("/login")}>Sign In</Button>
 
-            <Grid.Col span={1}>
-              <Button onClick={() => Router.push("/signup")}>Sign Up</Button>
-            </Grid.Col>
-          </>
+            <Button onClick={() => Router.push("/signup")}>Sign Up</Button>
+          </Group>
         )}
       </Grid>
     </Header>
