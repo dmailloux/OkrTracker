@@ -1,11 +1,10 @@
-import { Typography } from "@supabase/ui";
 import { Okr } from "../types/Okr";
 import { KeyResult } from "../types/KeyResult";
-import { ActionIcon } from "@mantine/core";
+import { ActionIcon, Card, Group, List, Text } from "@mantine/core";
 import { deleteKeyResults } from "../database/DeleteKeyResultsAction";
 import { Trash } from "tabler-icons-react";
 import { deleteObjective } from "../database/DeleteObjectiveAction";
-import { Mutation, useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 interface OkrDisplayProps {
   okr: Okr;
@@ -51,25 +50,35 @@ export function OkrDisplay({ okr }: OkrDisplayProps): JSX.Element {
   };
 
   return (
-    <>
-      <Typography.Text>{objective}</Typography.Text>
-      <ActionIcon color="red" variant="hover" onClick={() => deleteOkr(okr)}>
-        <Trash size={16} />
-      </ActionIcon>
-      <ul>
-        {keyResults?.map((keyResult: KeyResult, i: number) => (
-          <li key={i}>
-            <Typography.Text>{keyResult.description}</Typography.Text>
-            <ActionIcon
-              color="red"
-              variant="hover"
-              onClick={() => deleteKeyResult(keyResult)}
-            >
-              <Trash size={16} />
-            </ActionIcon>
-          </li>
-        ))}
-      </ul>
-    </>
+    <div style={{ width: 340, margin: "auto" }}>
+      <Card shadow="sm" withBorder radius="md">
+        <Group spacing="xs">
+          <Text weight={500}>{objective}</Text>
+          <ActionIcon
+            color="red"
+            variant="hover"
+            onClick={() => deleteOkr(okr)}
+          >
+            <Trash size={16} />
+          </ActionIcon>
+        </Group>
+        <ul>
+          {keyResults?.map((keyResult: KeyResult, i: number) => (
+            <li key={i}>
+              <Group>
+                <Text>{keyResult.description}</Text>
+                <ActionIcon
+                  color="red"
+                  variant="hover"
+                  onClick={() => deleteKeyResult(keyResult)}
+                >
+                  <Trash size={16} />
+                </ActionIcon>
+              </Group>
+            </li>
+          ))}
+        </ul>
+      </Card>
+    </div>
   );
 }
