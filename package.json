@@ -1,5 +1,5 @@
 {
-  "name": "with-supabase-auth",
+  "name": "oakra",
   "private": "true",
   "version": "1.0.0",
   "scripts": {
@@ -8,7 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@mantine/core": "^4.0.6",
+    "@mantine/core": "^4.1.0",
     "@mantine/dates": "^4.0.6",
     "@mantine/form": "^4.0.6",
     "@mantine/hooks": "^4.0.6",
