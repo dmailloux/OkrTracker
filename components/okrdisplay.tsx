@@ -34,7 +34,7 @@ export function OkrDisplay({ okr }: OkrDisplayProps): JSX.Element {
     if (okr.keyresults != null && okr.keyresults.length > 0) {
       const keyResultIdsToDelete = okr.keyresults
         .filter((x) => x.id != null)
-        .map((x) => x.id);
+        .map((x) => x.id) as string[];
 
       await keyResultsMutation.mutateAsync(keyResultIdsToDelete);
     }
