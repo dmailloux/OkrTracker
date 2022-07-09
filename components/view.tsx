@@ -17,7 +17,7 @@ export function View({
     return (
       <Space direction="vertical" size={0}>
         <div>
-          <Typography.Title level={3}>Oakra</Typography.Title>
+          <Typography.Title level={3}>Okr Tracker</Typography.Title>
         </div>
         <Auth
           supabaseClient={supabaseClient}

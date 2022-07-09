@@ -33,7 +33,7 @@ function HeaderContent(): JSX.Element {
   return (
     <Header height={60} p="xl">
       <Grid justify="space-between">
-        <Title>Oakra</Title>
+        <Title>Okr Tracker</Title>
         {session ? (
           <Group>
             <Button onClick={() => supabaseClient.auth.signOut()}>
