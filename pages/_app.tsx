@@ -37,11 +37,7 @@ export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
           theme={{
             // Override any other properties from default theme
             fontFamily: "Open Sans, sans serif",
-            colors: {
-              brand: ["#182847", "#cbac7b", "#52617a", "#fffff"],
-            },
-            // primaryColor: "indigo",
-            spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
+            primaryColor: "indigo",
           }}
         >
           <NotificationsProvider>
