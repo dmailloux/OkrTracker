@@ -2,11 +2,11 @@ import { Session, User } from "@supabase/supabase-js";
 import { Auth } from "@supabase/ui";
 import { GetServerSideProps } from "next";
 import { useQuery, UseQueryResult } from "react-query";
-import CreateOkrForm from "../components/createokrform";
-import { OkrDisplay } from "../components/okrdisplay";
-import { selectOkrs } from "../database/SelectOkrsAction";
-import { Okr } from "../types/Okr";
-import { supabaseClient } from "../utils/initSupabase";
+import CreateOkrForm from "../../components/createokrform";
+import { OkrDisplay } from "../../components/okrdisplay";
+import { selectOkrs } from "../../database/SelectOkrsAction";
+import { Okr } from "../../types/Okr";
+import { supabaseClient } from "../../utils/initSupabase";
 import { Stack, Divider } from "@mantine/core";
 
 export default function Okrs() {
