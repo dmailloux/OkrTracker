@@ -32,11 +32,11 @@ function HeaderContent(): JSX.Element {
                 variant="subtle"
                 onClick={() => Router.push("/login")}
               >
-                Sign In
+                Log In
               </Button>
               <Button
                 size="sm"
-                variant="subtle"
+                variant="filled"
                 onClick={() => Router.push("/signup")}
               >
                 Sign Up
