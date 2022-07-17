@@ -1,7 +1,17 @@
 import { supabaseClient } from "../utils/initSupabase";
 import { useForm } from "@mantine/form";
-import { Box, PasswordInput, Group, Button, TextInput } from "@mantine/core";
+import {
+  PasswordInput,
+  Group,
+  Button,
+  TextInput,
+  Card,
+  Title,
+} from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
+import { Mail } from "tabler-icons-react";
+import { X } from "tabler-icons-react";
+import styles from "../styles/signup.module.scss";
 
 export default function SignUp(): JSX.Element {
   const notifications = useNotifications();
@@ -26,48 +36,48 @@ export default function SignUp(): JSX.Element {
       notifications.showNotification({
         title: "Verification Email Sent",
         message: "Please check your email to verify your account",
-        // TODO: Install icon pack and put a checkmark here
-        // icon:
+        icon: <Mail />,
       });
     } catch (error) {
       notifications.showNotification({
         title: "Something went wrong",
         message: "Your verification email has not been sent",
-        // TODO: Install icon pack and put a checkmark here
-        // icon:
+        icon: <X />,
+        color: "red",
       });
     }
   };
 
   return (
-    <Box sx={{ maxWidth: 340 }} mx="auto">
-      <form onSubmit={form.onSubmit(handleSubmit)}>
-        <TextInput
-          required
-          label="Email"
-          placeholder="your@email.com"
-          {...form.getInputProps("email")}
-        />
-
-        <PasswordInput
-          required
-          label="Password"
-          placeholder="Password"
-          {...form.getInputProps("password")}
-        />
-
-        <PasswordInput
-          required
-          mt="sm"
-          label="Confirm password"
-          placeholder="Confirm password"
-          {...form.getInputProps("confirmPassword")}
-        />
-
-        <Group position="right" mt="md">
-          <Button type="submit">Submit</Button>
-        </Group>
-      </form>
-    </Box>
+    <div className={styles.pageContainer}>
+      <Card radius="lg" className={styles.cardContainer}>
+        <Title order={1} className={styles.title} m="lg">
+          Create your Account
+        </Title>
+        <form onSubmit={form.onSubmit(handleSubmit)} className={styles.form}>
+          <TextInput
+            required
+            id="email-input"
+            placeholder="your@email.com"
+            {...form.getInputProps("email")}
+          />
+          <PasswordInput
+            required
+            id="password-input"
+            placeholder="Password"
+            {...form.getInputProps("password")}
+          />
+          <PasswordInput
+            required
+            id="confirm-password-input"
+            placeholder="Confirm password"
+            {...form.getInputProps("confirmPassword")}
+          />
+          <Group position="right" mt="md">
+            <Button type="submit">Submit</Button>
+          </Group>
+        </form>
+      </Card>
+    </div>
   );
 }
