@@ -19,7 +19,7 @@ export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
         updateSupabaseAuthCookie(event, session);
 
         // if user signs in or out anywhere in the app, route them appropriately
-        handleAuthRouting(event, session);
+        handleAuthRouting(event);
       }
     );
 

@@ -1,16 +1,12 @@
-import { AuthChangeEvent, Session } from "@supabase/supabase-js";
-import Router from "next/router";
+import { AuthChangeEvent } from "@supabase/supabase-js";
 
-export function handleAuthRouting(
-  event: AuthChangeEvent,
-  session: Session | null
-) {
+export function handleAuthRouting(event: AuthChangeEvent) {
   switch (event) {
     case "SIGNED_IN":
-      Router.push("/okrs");
+      location.replace("/okrs");
       break;
     case "SIGNED_OUT":
-      Router.push("/");
+      location.replace("/");
       break;
   }
 }

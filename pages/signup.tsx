@@ -12,6 +12,7 @@ import { useNotifications } from "@mantine/notifications";
 import { Mail } from "tabler-icons-react";
 import { X } from "tabler-icons-react";
 import styles from "../styles/signup.module.scss";
+import { GetServerSideProps } from "next";
 
 export default function SignUp(): JSX.Element {
   const notifications = useNotifications();
@@ -81,3 +82,13 @@ export default function SignUp(): JSX.Element {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { user } = await supabaseClient.auth.api.getUserByCookie(req);
+
+  if (user) {
+    return { props: {}, redirect: { destination: "/okrs" } };
+  }
+
+  return { props: {} };
+};
